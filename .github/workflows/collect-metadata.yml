@@ -30,8 +30,9 @@ jobs:
         run: |
           node .github/scripts/collect-metadata.js
 
-      - name: Upload metadata artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: blog-metadata
-          path: .github/scripts/blog-metadata.json
+      - name: Upload metadata to API
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            --data-binary @.github/scripts/blog-metadata.json \
+            https://blog.zrien7.workers.dev/blog/update
