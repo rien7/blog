@@ -29,6 +29,15 @@ function getFirstCommitTimestamp(filePath) {
   }
 }
 
+function getLastCommitTimestamp(filePath) {
+  try {
+    const output = execSync(`git log -1 --format=%at -- ${filePath}`, { encoding: 'utf8' });
+    return parseInt(output.trim(), 10) * 1000;
+  } catch (e) {
+    return null;
+  }
+}
+
 function collectMetadata() {
   const root = path.resolve(process.cwd());
   const files = getAllFiles(root, ['.md', '.mdx']);
@@ -37,16 +46,24 @@ function collectMetadata() {
     const { data } = matter(raw);
     let name = data.title || path.basename(file);
     let date;
+    let update_date;
     if (data.date) {
       const d = new Date(data.date);
       date = d.getTime();
     } else {
       date = getFirstCommitTimestamp(file);
     }
+    if (data.update_date) {
+      const d = new Date(data.date);
+      update_date = d.getTime(); 
+    } else {
+      update_date = getLastCommitTimestamp(file)
+    }
     return {
       id: path.basename(file),
       name,
-      date
+      date,
+      update_date
     };
   });
   fs.writeFileSync(path.join(__dirname, 'blog-metadata.json'), JSON.stringify(result, null, 2));
