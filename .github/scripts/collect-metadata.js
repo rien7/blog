@@ -10,6 +10,8 @@ function getAllFiles(dir, exts) {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
     if (stat && stat.isDirectory()) {
+      // 跳过 node_modules 目录
+      if (file === 'node_modules') return;
       results = results.concat(getAllFiles(filePath, exts));
     } else if (exts.includes(path.extname(file))) {
       results.push(filePath);
