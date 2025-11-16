@@ -1,0 +1,6 @@
+.github/scripts/metadata.json
+
+node_modules
+
+package.json
+*-lock.*

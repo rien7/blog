@@ -93,6 +93,14 @@ function collectMetadata() {
     });
     result = result.concat(...metas)
   }
+  // delete undefined
+  result.forEach(res => {
+    for (const [k, v] of Object.entries(res)) {
+      if (!v) {
+        delete res[k]
+      }
+    }
+  })
   fs.writeFileSync(path.join(__dirname, 'metadata.json'), JSON.stringify(result, null, 2));
 }
 
