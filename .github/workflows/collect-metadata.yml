@@ -28,7 +28,7 @@ jobs:
       - name: Install gray-matter
         run: npm install gray-matter
 
-      - name: Collect blog metadata
+      - name: Collect metadata
         run: |
           node .github/scripts/collect-metadata.js
 
@@ -36,5 +36,5 @@ jobs:
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
-            --data-binary @.github/scripts/blog-metadata.json \
-            https://blog.zrien7.workers.dev/blog/update
+            --data-binary @.github/scripts/metadata.json \
+            https://homepage.zrien7.workers.dev/meta/update
