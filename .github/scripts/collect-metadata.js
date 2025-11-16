@@ -97,7 +97,7 @@ function collectMetadata() {
   result.forEach(res => {
     for (const [k, v] of Object.entries(res)) {
       if (!v) {
-        delete res[k]
+        res[k] = null
       }
     }
   })
